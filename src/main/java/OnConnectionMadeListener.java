@@ -22,15 +22,18 @@ public class OnConnectionMadeListener implements IListener<ReadyEvent> {
 
     }
 
-    private void postOnceADay(IChannel myChannel) {
-//        while(true) {
-        postUnrealBanterToChannel(myChannel);
-//            try {
-//                Thread.sleep(24*60*60*1000);
-//            } catch (InterruptedException e) {
-//                System.out.println("bloody error trying to sleep ffs");
-//            }
-//        }
+    private void postOnceADay(final IChannel myChannel) {
+        Thread thread = new Thread(() -> {
+                postUnrealBanterToChannel(myChannel);
+                try {
+                    Thread.sleep(24 * 60 * 60 * 1000);
+                } catch (InterruptedException e) {
+                    System.out.println("Just wasn't tired");
+                }
+                postOnceADay(myChannel);
+            }
+        );
+        thread.run();
     }
 
 
