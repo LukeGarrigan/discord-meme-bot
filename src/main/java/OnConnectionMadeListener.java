@@ -13,27 +13,22 @@ import java.nio.charset.Charset;
 public class OnConnectionMadeListener implements IListener<ReadyEvent> {
     public void handle(ReadyEvent event) {
         System.out.println("Bot is live");
-
-
         IChannel myChannel = getMyChannel("opinionated-quotes", event);
-
-
         postOnceADay(myChannel);
 
     }
 
     private void postOnceADay(final IChannel myChannel) {
         Thread thread = new Thread(() -> {
-                postUnrealBanterToChannel(myChannel);
                 try {
                     Thread.sleep(24 * 60 * 60 * 1000);
                 } catch (InterruptedException e) {
                     System.out.println("Just wasn't tired");
                 }
-                postOnceADay(myChannel);
+                postUnrealBanterToChannel(myChannel);
             }
         );
-        thread.run();
+        thread.start();
     }
 
 
